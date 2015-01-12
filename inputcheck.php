@@ -2,7 +2,7 @@
 
 //This Function validates user input for type and length
 
-function inputcheck($string,$type,$length)
+function inputcheck($string,$type,$length,$minlength)
 {
 
 	$type = 'is_'.$type;
@@ -21,6 +21,10 @@ function inputcheck($string,$type,$length)
 	{
 		return FALSE;
 	}
+	elseif(strlen($string) < $minlength)
+	{
+		return FALSE;
+	}
 	else
 	{
 	// if all is well, we return TRUE
@@ -32,7 +36,7 @@ function inputcheck($string,$type,$length)
   // returns TRUE on success
 function checkNumber($num, $min, $max)
 {
-	if(strlen($num) >= $min && strlen($num) <= $max)
+	if($num >= $min && $num <= $max)
 	{
 		return TRUE;
 	}
@@ -44,5 +48,8 @@ function checkEmail($email)
   return preg_match('/^\S+@[\w\d.-]{2,}\.[\w]{2,8}$/iU', $email) ? TRUE : FALSE;
 }
 
-
+	// $str = "-1.1";
+	// $result = inputcheck($str, 'numeric', 16, 0);
+	// //checkNumber($str, -180, 180);
+	// echo $result;
 ?>
