@@ -11,7 +11,7 @@ if(isset($_POST['create']))
 {
 	$valid = FALSE;
 	$success = FALSE;
-	// !isset($_POST['type']) ||
+	// inputcheck($string,$type,$length,$minlength, $min, $max)
 	if( !isset($_POST['track_name']) || !inputcheck($_POST['track_name'],'string',64, 5, NULL, NULL) ){ 
 		$submit_message = 'Invalid Track Name';
 	}elseif( !isset($_POST['country']) || !inputcheck($_POST['country'],'string',64, 3, NULL, NULL) ){ 
@@ -115,7 +115,7 @@ if(isset($_POST['create']))
 			<input name="type" type="radio" id="type" value="2">
 		</td>
 	</tr>
-<?	
+<?php
 	$latitude_atributes = 'type="number" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451"';
 	$longitude_atributes = 'type="number" size="30" maxlength=11 min="-180" max="180" step="any" placeholder="-20.6870728"';
 	$start_end = 'start';
@@ -136,7 +136,7 @@ if(isset($_POST['create']))
 				<input name="<?=$start_end.'_longitude'?>" id="<?=$start_end.'_longitude'?>" <?=$longitude_atributes?> required>
 			</td>
 		</tr>
-<?	
+<?php	
 	$start_end = 'end';
 	$coord_type = 'Finish';
 
