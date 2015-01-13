@@ -3,10 +3,8 @@
 
 <?php
 
-include 'dbinfo.php';
+require 'dbinfo.php';
 include 'inputcheck.php';
-
-
 
 
 if(isset($_POST['create']))
@@ -64,6 +62,7 @@ if(isset($_POST['create']))
 
 
 		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, start_latitude, start_longitude, end_latitude, end_longitude, start_heading, active, created_uid) VALUES (:track_name, :length,:country, :type, :start_latitude, :start_longitude, :end_latitude, :end_longitude, :start_heading, :active, :created_uid)");
+		
 		$query->bindParam(':track_name', $_POST['track_name']);
 		$query->bindParam(':length', $_POST['length']);
 		$query->bindParam(':country', $_POST['country']);
@@ -99,13 +98,17 @@ if(isset($_POST['create']))
 
 	<tr>
 		<td>Track Name</td>
-		<td><input name="track_name" type="text" id="track_name" size=50 maxlength=64 autofocus required value="<?php echo (isset($_POST['track_name']) && $success == FALSE) ? $_POST['track_name'] : '';?>" ></td>
+		<td>
+			<input name="track_name" type="text" id="track_name" size=50 maxlength=64 autofocus required 
+			value="<?php echo (isset($_POST['track_name']) && $success == FALSE) ? $_POST['track_name'] : '';?>" >
+		</td>
 	</tr>
 	
 	<tr>
 		<td>Length</td>
 		<td>
-			<input name="length" type="number" id="length" size=50 maxlength=11 min="0" max="99999999999" value="<?php echo (isset($_POST['length']) && $success == FALSE) ? $_POST['length'] : '';?>">
+			<input name="length" type="number" id="length" size=50 maxlength=11 min="0" max="99999999999" 
+			value="<?php echo (isset($_POST['length']) && $success == FALSE) ? $_POST['length'] : '';?>">
 			meters
 		</td>
 	</tr>
@@ -125,23 +128,35 @@ if(isset($_POST['create']))
 			Start
 		</td>
 		<td>
-			Latitude:&nbsp;<input name="start_latitude" type="number" id="start_latitude" size=30 maxlength=11 min="-90" max="90" step="0.00001" placeholder="41.9714451" required value="<?php echo (isset($_POST['start_latitude']) && $success == FALSE) ? $_POST['start_latitude'] : '';?>">
+			Latitude:&nbsp;
+			<input name="start_latitude" type="number" id="start_latitude" size=30 
+			maxlength=11 min="-90" max="90" step="0.00001" placeholder="41.9714451" required 
+			value="<?php echo (isset($_POST['start_latitude']) && $success == FALSE) ? $_POST['start_latitude'] : '';?>">
 			<br>
-			Longitude:&nbsp;<input name="start_longitude" type="number" id="start_longitude" size=30 maxlength=11 min="-180" max="180" step="0.00001" placeholder="-20.6870728" required value="<?php echo (isset($_POST['start_longitude']) && $success == FALSE) ? $_POST['start_longitude'] : '';?>">
+			Longitude:&nbsp;
+			<input name="start_longitude" type="number" id="start_longitude" size=30 
+			maxlength=11 min="-180" max="180" step="0.00001" placeholder="-20.6870728" required 
+			value="<?php echo (isset($_POST['start_longitude']) && $success == FALSE) ? $_POST['start_longitude'] : '';?>">
 		</td>
 	</tr>
-	
+
 	<tr>
 		<td>
 			Finish 
 		</td>
 		<td>
-			Latitude:&nbsp;<input name="end_latitude" type="number" id="end_latitude" size=30 maxlength=11 min="-84" max="84" step="0.00001" placeholder="41.9714451" required value="<?php echo (isset($_POST['end_latitude']) && $success == FALSE) ? $_POST['end_latitude'] : '';?>">
+			Latitude:&nbsp;
+			<input name="end_latitude" type="number" id="end_latitude" size=30 
+			maxlength=11 min="-84" max="84" step="0.00001" placeholder="41.9714451" required 
+			value="<?php echo (isset($_POST['end_latitude']) && $success == FALSE) ? $_POST['end_latitude'] : '';?>">
 			<br>
-			Longitude:&nbsp;<input name="end_longitude" type="number" id="end_longitude" size=30 maxlength=11 min="-180" max="180" step="0.00001" placeholder="-20.6870728" required value="<?php echo (isset($_POST['end_longitude']) && $success == FALSE) ? $_POST['end_longitude'] : '';?>">
+			Longitude:&nbsp;
+			<input name="end_longitude" type="number" id="end_longitude" size=30 
+			maxlength=11 min="-180" max="180" step="0.00001" placeholder="-20.6870728" required 
+			value="<?php echo (isset($_POST['end_longitude']) && $success == FALSE) ? $_POST['end_longitude'] : '';?>">
 		</td>
 	</tr>
-
+</script>
 	<tr>
 		<td>Running Direction</td>
 		<td>Clockwise
@@ -156,7 +171,8 @@ if(isset($_POST['create']))
 	<tr>
 		<td> </td>
 		<td>
-			<input type="text" name='country' id="country" list="someCountries" placeholder="Country" required value="<?php echo (isset($_POST['country']) && $success == FALSE) ? $_POST['country'] : '';?>" />
+			<input type="text" name='country' id="country" list="someCountries" placeholder="Country" required 
+			value="<?php echo (isset($_POST['country']) && $success == FALSE) ? $_POST['country'] : '';?>" />
 			<datalist id="someCountries">
 					<?php include ("countrydropdown.html"); ?>
 			</datalist>
