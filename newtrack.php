@@ -16,20 +16,20 @@ if(isset($_POST['create']))
 		$submit_message = 'Invalid Track Name';
 	}elseif( !inputcheck($_POST['country'],'string',64, 3) ){ 
 		$submit_message = 'Invalid Country Name';
-	}elseif( !inputcheck($_POST['length'], 'numeric', 11, 0) || !checkNumber($_POST['length'], 0, 99999999999) ){ 
+	}elseif( !inputcheck($_POST['length'], 'numeric', 11, 0) || !checknumber($_POST['length'], 0, 99999999999) ){ 
 		$submit_message = 'Invalid Length';
-	}elseif( !inputcheck($_POST['type'], 'numeric', 2, 1) || !checkNumber($_POST['type'], 1, 2) ){ 
+	}elseif( !inputcheck($_POST['type'], 'numeric', 2, 1) || !checknumber($_POST['type'], 1, 2) ){ 
 		$submit_message = 'Invalid Track type';
-	}elseif( !inputcheck($_POST['start_heading'], 'numeric', 2, 1) || !checkNumber($_POST['type'], 1, 2) ){ 
+	}elseif( !inputcheck($_POST['start_heading'], 'numeric', 2, 1) || !checknumber($_POST['start_heading'], 1, 2) ){ 
 		$submit_message = 'Invalid Track Direction';
-	}elseif( !inputcheck($_POST['start_latitude'], 'numeric', 11, 0) || !checkNumber($_POST['start_latitude'], -90, 90) ){ 
+	}elseif( !inputcheck($_POST['start_latitude'], 'numeric', 11, 0) || !checknumber($_POST['start_latitude'], -90, 90) ){ 
 		$submit_message = 'Invalid Start Latitude';
-	}elseif( !inputcheck($_POST['start_latitude'], 'numeric', 11, 0) || !checkNumber($_POST['start_longitude'], -180, 180) ){ 
+	}elseif( !inputcheck($_POST['start_longitude'], 'numeric', 11, 0) || !checknumber($_POST['start_longitude'], -180, 180) ){ 
 		$submit_message = 'Invalid Start Longitude';
 	}elseif($_POST['type'] == '2'){
-		if( !inputcheck($_POST['end_latitude'], 'numeric', 11, 0) || !checkNumber($_POST['end_latitude'], -90, 90) ){ 
+		if( !inputcheck($_POST['end_latitude'], 'numeric', 11, 0) || !checknumber($_POST['end_latitude'], -90, 90) ){ 
 			$submit_message = 'Invalid Finish Latitude';
-		}elseif( !inputcheck($_POST['end_longitude'], 'numeric', 11, 0) || !checkNumber($_POST['end_longitude'], -180, 180) ){ 
+		}elseif( !inputcheck($_POST['end_longitude'], 'numeric', 11, 0) || !checknumber($_POST['end_longitude'], -180, 180) ){ 
 			$submit_message = 'Invalid Finish Longitude';
 		}else{
 			$valid = TRUE;
@@ -42,7 +42,7 @@ if(isset($_POST['create']))
 		$end_longitude = 0;
 	}
 
-	if($valid == TRUE)
+	if($valid)
 	{
 		try 
 		{
@@ -50,26 +50,27 @@ if(isset($_POST['create']))
 		}
 		catch(PDOException $e)
 	    {
-			echo $e->getMessage();
+			echo $e->getmessage();
 	    }
 		
 		$create_uid = 1;
-		$active = 1;
+		$active = TRUE;
 
 
-		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, start_latitude, start_longitude, end_latitude, end_longitude, start_heading, active, created_uid) VALUES (:track_name, :length,:country, :type, :start_latitude, :start_longitude, :end_latitude, :end_longitude, :start_heading, :active, :created_uid)");
+		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, start_latitude, start_longitude, end_latitude, end_longitude, start_heading, active, created_uid) 
+											VALUES (:track_name, :length,:country, :type, :start_latitude, :start_longitude, :end_latitude, :end_longitude, :start_heading, :active, :created_uid)");
 		
-		$query->bindParam(':track_name', $_POST['track_name']);
-		$query->bindParam(':length', $_POST['length']);
-		$query->bindParam(':country', $_POST['country']);
-		$query->bindParam(':type', $_POST['type']);
-		$query->bindParam(':start_latitude', $_POST['start_latitude']);
-		$query->bindParam(':start_longitude', $_POST['start_longitude']);
-		$query->bindParam(':end_latitude', $end_latitude);
-		$query->bindParam(':end_longitude', $end_longitude);
-		$query->bindParam(':start_heading', $_POST['start_heading']);
-		$query->bindParam(':active', $active);
-		$query->bindParam(':created_uid', $create_uid);
+		$query->bindparam(':track_name', $_POST['track_name']);
+		$query->bindparam(':length', $_POST['length']);
+		$query->bindparam(':country', $_POST['country']);
+		$query->bindparam(':type', $_POST['type']);
+		$query->bindparam(':start_latitude', $_POST['start_latitude']);
+		$query->bindparam(':start_longitude', $_POST['start_longitude']);
+		$query->bindparam(':end_latitude', $end_latitude);
+		$query->bindparam(':end_longitude', $end_longitude);
+		$query->bindparam(':start_heading', $_POST['start_heading']);
+		$query->bindparam(':active', $active);
+		$query->bindparam(':created_uid', $create_uid);
 		
 		try
 		{		
@@ -78,7 +79,7 @@ if(isset($_POST['create']))
 		}
 		catch (PDOException $e2)
 		{	
-			$submit_message = $e2->getMessage();
+			$submit_message = $e2->getmessage();
 		}
 		$success = TRUE;	
 		$db = NULL;
@@ -95,7 +96,7 @@ if(isset($_POST['create']))
 	<tr>
 		<td>Track Name</td>
 		<td>
-			<input name="track_name" type="text" id="track_name" size=50 maxlength=64 autofocus required>
+			<input name="track_name" type="text" id="track_name" size="50" maxlength="64" autofocus required>
 		</td>
 	</tr>
 	
@@ -114,32 +115,34 @@ if(isset($_POST['create']))
 			<input name="type" type="radio" id="type" value="2">
 		</td>
 	</tr>
-	<tr>
-		<td>
-			Start
-		</td>
-		<td>
-			Latitude:
-			<input name="start_latitude" type="number" id="start_latitude" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451" required>
-			<br>
-			Longitude:
-			<input name="start_longitude" type="number" id="start_longitude" size="30" maxlength=11 min="-180" max="180" step="any" placeholder="-20.6870728" required>
-		</td>
-	</tr>
+<?php	
+	$latitude_atributes = 'type="number" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451"';
+	$longitude_atributes = 'type="number" size="30" maxlength=11 min="-180" max="180" step="any" placeholder="-20.6870728"';
+	$start_end = 'start';
+	$coord_type = "Start";
 
-	<tr>
-		<td>
-			Finish 
-		</td>
-		<td>
-			Latitude:
-			<input name="end_latitude" type="number" id="end_latitude" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451" required>
-			<br>
-			Longitude:
-			<input name="end_longitude" type="number" id="end_longitude" size="30" maxlength=11 min="-180" max="180" step="any" placeholder="-20.6870728" required>
-		</td>
-	</tr>
-</script>
+	for($i = 0; $i < 2; $i++)
+	{
+?>
+		<tr>
+			<td>
+				<?=$coord_type?>
+			</td>
+			<td>
+				Latitude:
+				<input name="<?=$start_end.'_latitude'?>" id="<?=$start_end.'_latitude'?>" <?=$latitude_atributes?> required>
+				<br>
+				Longitude:
+				<input name="<?= $start_end.'_longitude'?>" id="<?=$start_end.'_longitude'?>" <?=$longitude_atributes?> required>
+			</td>
+		</tr>
+<?php	
+	$start_end = 'end';
+	$coord_type = 'Finish';
+
+	}
+?>
+
 	<tr>
 		<td>Running Direction</td>
 		<td>Clockwise

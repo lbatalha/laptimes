@@ -34,7 +34,7 @@ function inputcheck($string,$type,$length,$minlength)
 
   // check number is >= than 0 and $length digits long
   // returns TRUE on success
-function checkNumber($num, $min, $max)
+function checknumber($num, $min, $max)
 {
 	if($num >= $min && $num <= $max)
 	{
