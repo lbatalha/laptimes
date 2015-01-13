@@ -4,12 +4,12 @@
 <?php
 
 require 'dbinfo.php';
-include 'inputcheck.php';
+require 'inputcheck.php';
 
 
 if(isset($_POST['create']))
 {
-	$valid = 0;
+	$valid = FALSE;
 	$success = FALSE;
 
 	if( !inputcheck($_POST['track_name'],'string',64, 5) ){ 
@@ -31,22 +31,18 @@ if(isset($_POST['create']))
 			$submit_message = 'Invalid Finish Latitude';
 		}elseif( !inputcheck($_POST['end_longitude'], 'numeric', 11, 0) || !checkNumber($_POST['end_longitude'], -180, 180) ){ 
 			$submit_message = 'Invalid Finish Longitude';
-		}
-		else
-		{
-			$valid = 1;
+		}else{
+			$valid = TRUE;
 			$end_latitude = $_POST['end_latitude'];
 			$end_longitude = $_POST['end_longitude'];
 		}
-	}
-	else
-	{
-		$valid = 1;
+	}else{
+		$valid = TRUE;
 		$end_latitude = 0;
 		$end_longitude = 0;
 	}
 
-	if($valid == 1)
+	if($valid == TRUE)
 	{
 		try 
 		{
@@ -90,7 +86,7 @@ if(isset($_POST['create']))
 }
 ?>
 
-<div align="center" style="color:#eeeeeeeee">
+<div align="center">
 	Create new Track
 	<form method="post" action="<?php $_PHP_SELF ?>">
 	
@@ -99,44 +95,35 @@ if(isset($_POST['create']))
 	<tr>
 		<td>Track Name</td>
 		<td>
-			<input name="track_name" type="text" id="track_name" size=50 maxlength=64 autofocus required 
-			value="<?php echo (isset($_POST['track_name']) && $success == FALSE) ? $_POST['track_name'] : '';?>" >
+			<input name="track_name" type="text" id="track_name" size=50 maxlength=64 autofocus required>
 		</td>
 	</tr>
 	
 	<tr>
 		<td>Length</td>
 		<td>
-			<input name="length" type="number" id="length" size=50 maxlength=11 min="0" max="99999999999" 
-			value="<?php echo (isset($_POST['length']) && $success == FALSE) ? $_POST['length'] : '';?>">
+			<input name="length" type="number" id="length" size=50 maxlength="11" min="0">
 			meters
 		</td>
 	</tr>
 	<tr>
 		<td>Track Type</td>
-		<td>Circuit&nbsp;
-			<input name="type" type="radio" id="type" value="1" 
-			<?php echo (isset($_POST['type']) && $_POST['type'] == 1 && $success == FALSE) ? 'checked' : 'checked';?>>&nbsp;&nbsp;
-			Sprint&nbsp;
-			<input name="type" type="radio" id="type" value="2" 
-			<?php echo (isset($_POST['type']) && $_POST['type'] == 2 && $success == FALSE) ? 'checked' : '';?>>
+		<td>Circuit
+			<input name="type" type="radio" id="type" value="1">
+			Sprint
+			<input name="type" type="radio" id="type" value="2">
 		</td>
-
 	</tr>
 	<tr>
 		<td>
 			Start
 		</td>
 		<td>
-			Latitude:&nbsp;
-			<input name="start_latitude" type="number" id="start_latitude" size=30 
-			maxlength=11 min="-90" max="90" step="0.00001" placeholder="41.9714451" required 
-			value="<?php echo (isset($_POST['start_latitude']) && $success == FALSE) ? $_POST['start_latitude'] : '';?>">
+			Latitude:
+			<input name="start_latitude" type="number" id="start_latitude" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451" required>
 			<br>
-			Longitude:&nbsp;
-			<input name="start_longitude" type="number" id="start_longitude" size=30 
-			maxlength=11 min="-180" max="180" step="0.00001" placeholder="-20.6870728" required 
-			value="<?php echo (isset($_POST['start_longitude']) && $success == FALSE) ? $_POST['start_longitude'] : '';?>">
+			Longitude:
+			<input name="start_longitude" type="number" id="start_longitude" size="30" maxlength=11 min="-180" max="180" step="any" placeholder="-20.6870728" required>
 		</td>
 	</tr>
 
@@ -145,36 +132,29 @@ if(isset($_POST['create']))
 			Finish 
 		</td>
 		<td>
-			Latitude:&nbsp;
-			<input name="end_latitude" type="number" id="end_latitude" size=30 
-			maxlength=11 min="-84" max="84" step="0.00001" placeholder="41.9714451" required 
-			value="<?php echo (isset($_POST['end_latitude']) && $success == FALSE) ? $_POST['end_latitude'] : '';?>">
+			Latitude:
+			<input name="end_latitude" type="number" id="end_latitude" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451" required>
 			<br>
-			Longitude:&nbsp;
-			<input name="end_longitude" type="number" id="end_longitude" size=30 
-			maxlength=11 min="-180" max="180" step="0.00001" placeholder="-20.6870728" required 
-			value="<?php echo (isset($_POST['end_longitude']) && $success == FALSE) ? $_POST['end_longitude'] : '';?>">
+			Longitude:
+			<input name="end_longitude" type="number" id="end_longitude" size="30" maxlength=11 min="-180" max="180" step="any" placeholder="-20.6870728" required>
 		</td>
 	</tr>
 </script>
 	<tr>
 		<td>Running Direction</td>
 		<td>Clockwise
-					<input name="start_heading" type="radio" id="start_heading" value="1" 
-					<?php echo (isset($_POST['start_heading']) && $_POST['start_heading'] == 1 && $success == FALSE) ? 'checked' : 'checked';?>>&nbsp;
+					<input name="start_heading" type="radio" id="start_heading" value="1">
 			Anti-Clockwise
-					<input name="start_heading" type="radio" id="start_heading" value="2" 
-					<?php echo (isset($_POST['start_heading']) && $_POST['start_heading'] ==2 && $success == FALSE) ? 'checked' : '';?>>
+					<input name="start_heading" type="radio" id="start_heading" value="2">
 		</td>
 
 	</tr>
 	<tr>
 		<td> </td>
 		<td>
-			<input type="text" name='country' id="country" list="someCountries" placeholder="Country" required 
-			value="<?php echo (isset($_POST['country']) && $success == FALSE) ? $_POST['country'] : '';?>" />
+			<input type="text" name='country' id="country" list="someCountries" placeholder="Country" required>
 			<datalist id="someCountries">
-					<?php include ("countrydropdown.html"); ?>
+				<?php require ("countrydropdown.html"); ?>
 			</datalist>
 		</td>
 	</tr>
