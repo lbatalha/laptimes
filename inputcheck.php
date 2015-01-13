@@ -2,7 +2,7 @@
 
 //This Function validates user input for type and length
 
-function inputcheck($string,$type,$length,$minlength)
+function inputcheck($string,$type,$length,$minlength, $min, $max)
 {
 
 	$type = 'is_'.$type;
@@ -12,7 +12,7 @@ function inputcheck($string,$type,$length,$minlength)
 		return FALSE;
 	}
 	// now we see if there is anything in the string
-	elseif(empty($string))
+	elseif($type != 'is_numeric' && empty($string))
 	{
 		return FALSE;
 	}
@@ -25,6 +25,17 @@ function inputcheck($string,$type,$length,$minlength)
 	{
 		return FALSE;
 	}
+	elseif ($type == 'is_numeric') 
+	{
+		if($string >= $min && $string <= $max)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
 	else
 	{
 	// if all is well, we return TRUE
@@ -34,22 +45,21 @@ function inputcheck($string,$type,$length,$minlength)
 
   // check number is >= than 0 and $length digits long
   // returns TRUE on success
-function checknumber($num, $min, $max)
-{
-	if($num >= $min && $num <= $max)
-	{
-		return TRUE;
-	}
-	else{return FALSE;}
-}
+// function checknumber($num, $min, $max)
+// {
+// 	if($num >= $min && $num <= $max)
+// 	{
+// 		return TRUE;
+// 	}
+// 	else{return FALSE;}
+// }
 
 function checkEmail($email)
 {
   return preg_match('/^\S+@[\w\d.-]{2,}\.[\w]{2,8}$/iU', $email) ? TRUE : FALSE;
 }
 
-	// $str = "-1.1";
-	// $result = inputcheck($str, 'numeric', 16, 0);
-	// //checkNumber($str, -180, 180);
-	// echo $result;
+// $str = "-91";
+// $result = inputcheck($str, 'numeric', 11, 0, -90, 90);
+// echo $result;
 ?>
