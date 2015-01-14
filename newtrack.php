@@ -13,40 +13,40 @@ if(isset($_POST['create']))
 	$valid = FALSE;
 	$success = FALSE;
 	// inputcheck($string, $type, $length, $minlength, $min, $max)
-	if(!isset($_POST['track_name']) || !inputcheck($_POST['track_name'],'string', 64, 5, NULL, NULL))
+	if(!inputcheck('track_name','string', 64, 5, NULL, NULL))
 	{ 
 		$submit_message = 'Invalid Track Name';
 	}
-	elseif(!isset($_POST['country']) || !inputcheck($_POST['country'],'string', 64, 3, NULL, NULL))
+	elseif(!inputcheck('country','string', 64, 3, NULL, NULL))
 	{ 
 		$submit_message = 'Invalid Country Name';
 	}
-	elseif(!isset($_POST['length']) || !inputcheck($_POST['length'], 'numeric', 11, 0, 0, 1000000000))
+	elseif(!inputcheck('length', 'numeric', 11, 0, 0, 1000000000))
 	{ 
 		$submit_message = 'Invalid Length';
 	}
-	elseif(!isset($_POST['type']) || !inputcheck($_POST['type'], 'numeric', 2, 1, 1, 2))
+	elseif(!inputcheck('type', 'numeric', 2, 1, 1, 2))
 	{ 
 		$submit_message = 'Invalid Track type';
 	}
-	elseif(!isset($_POST['track_direction']) || !inputcheck($_POST['track_direction'], 'numeric', 2, 1, 1, 2))
+	elseif(!inputcheck('track_direction', 'numeric', 2, 1, 1, 2))
 	{ 
 		$submit_message = 'Invalid Track Direction';
 	}
-	elseif(!isset($_POST['start_latitude']) || !inputcheck($_POST['start_latitude'], 'numeric', 11, 0, -90, 90))
+	elseif(!inputcheck('start_latitude', 'numeric', 11, 0, -90, 90))
 	{ 
 		$submit_message = 'Invalid Start Latitude';
 	}
-	elseif(!isset($_POST['start_longitude']) || !inputcheck($_POST['start_longitude'], 'numeric', 11, 0, -180, 180))
+	elseif(!inputcheck('start_longitude', 'numeric', 11, 0, -180, 180))
 	{ 
 		$submit_message = 'Invalid Start Longitude';
 	}
 	elseif($_POST['type'] == '2'){
-		if(!isset($_POST['end_latitude']) || !inputcheck($_POST['end_latitude'], 'numeric', 11, 0, -90, 90))
+		if(!inputcheck('end_latitude', 'numeric', 11, 0, -90, 90))
 		{ 
 			$submit_message = 'Invalid Finish Latitude';
 		}
-		elseif(!isset($_POST['end_longitude']) || !inputcheck($_POST['end_longitude'], 'numeric', 11, 0, -180, 180))
+		elseif(!inputcheck('end_longitude', 'numeric', 11, 0, -180, 180))
 		{ 
 			$submit_message = 'Invalid Finish Longitude';
 		}

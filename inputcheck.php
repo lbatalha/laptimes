@@ -2,11 +2,15 @@
 
 //This Function validates user input for type and length
 
-function inputcheck($string,$type,$length,$minlength, $min, $max)
+function inputcheck($post,$type,$length,$minlength, $min, $max)
 {
 
 	$type = 'is_'.$type;
 
+	if(!isset($_POST[$post]))
+		return FALSE;
+	else
+		$string = $_POST[$post]);
 	if ($type == 'is_numeric') 
 	{
 		if($string >= $min && $string <= $max)
