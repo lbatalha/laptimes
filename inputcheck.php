@@ -7,40 +7,17 @@ function inputcheck($string,$type,$length,$minlength, $min, $max)
 
 	$type = 'is_'.$type;
 
-	if(!$type($string))
-	{
-		return FALSE;
-	}
-	// now we see if there is anything in the string
-	elseif($type != 'is_numeric' && empty($string))
-	{
-		return FALSE;
-	}
-	// then we check how long the string is
-	elseif(strlen($string) > $length)
-	{
-		return FALSE;
-	}
-	elseif(strlen($string) < $minlength)
-	{
-		return FALSE;
-	}
-	elseif ($type == 'is_numeric') 
+	if ($type == 'is_numeric') 
 	{
 		if($string >= $min && $string <= $max)
-		{
 			return TRUE;
-		}
 		else
-		{
 			return FALSE;
-		}
 	}
+	elseif(empty($string) || strlen($string) > $length || strlen($string) < $minlength)
+		return FALSE;
 	else
-	{
-	// if all is well, we return TRUE
 		return TRUE;
-	}
 }
 
   // check number is >= than 0 and $length digits long

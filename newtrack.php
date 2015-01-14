@@ -29,7 +29,7 @@ if(isset($_POST['create']))
 	{ 
 		$submit_message = 'Invalid Track type';
 	}
-	elseif(!isset($_POST['start_heading']) || !inputcheck($_POST['start_heading'], 'numeric', 2, 1, 1, 2))
+	elseif(!isset($_POST['track_direction']) || !inputcheck($_POST['track_direction'], 'numeric', 2, 1, 1, 2))
 	{ 
 		$submit_message = 'Invalid Track Direction';
 	}
@@ -80,8 +80,8 @@ if(isset($_POST['create']))
 		$active = TRUE;
 
 
-		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, start_latitude, start_longitude, end_latitude, end_longitude, start_heading, active, created_uid) 
-										  VALUES (:track_name,:length,:country,:type,:start_latitude,:start_longitude,:end_latitude,:end_longitude,:start_heading,:active,:created_uid)");
+		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, start_latitude, start_longitude, end_latitude, end_longitude, track_direction, active, created_uid) 
+										  VALUES (:track_name,:length,:country,:type,:start_latitude,:start_longitude,:end_latitude,:end_longitude,:track_direction,:active,:created_uid)");
 		
 		$query->bindparam(':track_name', $_POST['track_name']);
 		$query->bindparam(':length', $_POST['length']);
@@ -91,7 +91,7 @@ if(isset($_POST['create']))
 		$query->bindparam(':start_longitude', $_POST['start_longitude']);
 		$query->bindparam(':end_latitude', $end_latitude);
 		$query->bindparam(':end_longitude', $end_longitude);
-		$query->bindparam(':start_heading', $_POST['start_heading']);
+		$query->bindparam(':track_direction', $_POST['track_direction']);
 		$query->bindparam(':active', $active);
 		$query->bindparam(':created_uid', $create_uid);
 		
@@ -140,7 +140,7 @@ if(isset($_POST['create']))
 	</tr>
 <?php
 	$latitude_atributes = 'type="number" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451"';
-	$longitude_atributes = 'type="number" size="30" maxlength=11 min="-180" max="180" step="any" placeholder="-20.6870728"';
+	$longitude_atributes = 'type="number" size="30" maxlength="11" min="-180" max="180" step="any" placeholder="-20.6870728"';
 	$start_end = 'start';
 	$coord_type = 'Start';
 
@@ -160,8 +160,8 @@ if(isset($_POST['create']))
 			</td>
 		</tr>
 <?php	
-	$start_end = 'end';
-	$coord_type = 'Finish';
+		$start_end = 'end';
+		$coord_type = 'Finish';
 
 	}
 ?>
@@ -169,9 +169,9 @@ if(isset($_POST['create']))
 	<tr>
 		<td>Running Direction</td>
 		<td>Clockwise
-					<input name="start_heading" type="radio" id="start_heading" value="1" checked>
+					<input name="track_direction" type="radio" id="track_direction" value="1" checked>
 			Anti-Clockwise
-					<input name="start_heading" type="radio" id="start_heading" value="2">
+					<input name="track_direction" type="radio" id="track_direction" value="2">
 		</td>
 
 	</tr>
