@@ -2,16 +2,14 @@
 
 //This Function validates user input for type and length
 
-function inputcheck($post,$type,$length,$minlength, $min, $max)
+function inputcheck($post, $length, $minlength = 0, $min = NULL, $max = NULL)
 {
-
-	$type = 'is_'.$type;
 
 	if(!isset($_POST[$post]))
 		return FALSE;
 	else
 		$string = $_POST[$post];
-	if ($type == 'is_numeric') 
+	if (is_numeric($string)) 
 	{
 		if($string >= $min && $string <= $max)
 			return TRUE;
@@ -23,17 +21,6 @@ function inputcheck($post,$type,$length,$minlength, $min, $max)
 	else
 		return TRUE;
 }
-
-  // check number is >= than 0 and $length digits long
-  // returns TRUE on success
-// function checknumber($num, $min, $max)
-// {
-// 	if($num >= $min && $num <= $max)
-// 	{
-// 		return TRUE;
-// 	}
-// 	else{return FALSE;}
-// }
 
 function checkEmail($email)
 {

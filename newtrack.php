@@ -12,41 +12,45 @@ if(isset($_POST['create']))
 {
 	$valid = FALSE;
 	$success = FALSE;
+	
+	$lat_range = 90;
+	$lon_range = 180;
+
 	// inputcheck($string, $type, $length, $minlength, $min, $max)
-	if(!inputcheck('track_name','string', 64, 5, NULL, NULL))
+	if(!inputcheck('track_name', 64, 5))
 	{ 
 		$submit_message = 'Invalid Track Name';
 	}
-	elseif(!inputcheck('country','string', 64, 3, NULL, NULL))
+	elseif(!inputcheck('country', 64, 3))
 	{ 
 		$submit_message = 'Invalid Country Name';
 	}
-	elseif(!inputcheck('length', 'numeric', 11, 0, 0, 1000000000))
+	elseif(!inputcheck('length', 11, 0, 0, 1000000000))
 	{ 
 		$submit_message = 'Invalid Length';
 	}
-	elseif(!inputcheck('type', 'numeric', 2, 1, 1, 2))
+	elseif(!inputcheck('type', 2, 1, 1, 2))
 	{ 
 		$submit_message = 'Invalid Track type';
 	}
-	elseif(!inputcheck('track_direction', 'numeric', 2, 1, 1, 2))
+	elseif(!inputcheck('track_direction', 2, 1, 1, 2))
 	{ 
 		$submit_message = 'Invalid Track Direction';
 	}
-	elseif(!inputcheck('start_latitude', 'numeric', 11, 0, -90, 90))
+	elseif(!inputcheck('start_latitude', 11, 0, -1*$lat_range, $lat_range))
 	{ 
 		$submit_message = 'Invalid Start Latitude';
 	}
-	elseif(!inputcheck('start_longitude', 'numeric', 11, 0, -180, 180))
+	elseif(!inputcheck('start_longitude', 11, 0, -1*$lon_range, $lon_range))
 	{ 
 		$submit_message = 'Invalid Start Longitude';
 	}
 	elseif($_POST['type'] == '2'){
-		if(!inputcheck('end_latitude', 'numeric', 11, 0, -90, 90))
+		if(!inputcheck('end_latitude', 11, 0, -1*$lat_range, $lat_range))
 		{ 
 			$submit_message = 'Invalid Finish Latitude';
 		}
-		elseif(!inputcheck('end_longitude', 'numeric', 11, 0, -180, 180))
+		elseif(!inputcheck('end_longitude', 11, 0, -1*$lon_range, $lon_range))
 		{ 
 			$submit_message = 'Invalid Finish Longitude';
 		}
@@ -141,27 +145,26 @@ if(isset($_POST['create']))
 <?php
 	$latitude_atributes = 'type="number" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451"';
 	$longitude_atributes = 'type="number" size="30" maxlength="11" min="-180" max="180" step="any" placeholder="-20.6870728"';
-	$start_end = 'start';
-	$coord_type = 'Start';
+	$atribute_name = array['start','end'];
+	$coord_title = array['Start','Finish'];
 
 	for($i = 0; $i < 2; $i++)
 	{
 ?>
 		<tr>
 			<td>
-				<?=$coord_type?>
+				<?=$coord_title[$i]?>
 			</td>
 			<td>
 				Latitude:
-				<input name="<?=$start_end.'_latitude'?>" id="<?=$start_end.'_latitude'?>" <?=$latitude_atributes?> required>
+				<input name="<?=$atribute_name[$i].'_latitude'?>" id="<?=$atribute_name[$i].'_latitude'?>" <?=$latitude_atributes?> required>
 				<br>
 				Longitude:
-				<input name="<?=$start_end.'_longitude'?>" id="<?=$start_end.'_longitude'?>" <?=$longitude_atributes?> required>
+				<input name="<?=$atribute_name[$i].'_longitude'?>" id="<?=$atribute_name[$i].'_longitude'?>" <?=$longitude_atributes?> required>
 			</td>
 		</tr>
 <?php	
-		$start_end = 'end';
-		$coord_type = 'Finish';
+
 
 	}
 ?>
