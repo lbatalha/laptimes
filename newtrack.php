@@ -11,7 +11,6 @@ require 'inputcheck.php';
 if(isset($_POST['create']))
 {
 	$valid = FALSE;
-	$success = FALSE;
 	
 	$lat_range = 90;
 	$lon_range = 180;
@@ -79,16 +78,16 @@ if(isset($_POST['create']))
 			$submit_message = "Error Connecting to Database, try again later (".$e->getmessage().").";
 		}
 		
-		$create_uid = 1;
+		$created_uid = 1;
 		$active = TRUE;
 
 
 		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, 
-												start_latitude, start_longitude, end_latitude, end_longitude, 
-												track_direction, active, created_uid) 
-										VALUES (:track_name, :length, :country, :type, 
-												:start_latitude, :start_longitude, :end_latitude, :end_longitude, 
-												:track_direction, :active, :created_uid)");
+                                                   start_latitude, start_longitude, end_latitude, end_longitude, 
+                                                   track_direction, active, created_uid) 
+                                    VALUES        (:track_name, :length, :country, :type, 
+                                                   :start_latitude, :start_longitude, :end_latitude, :end_longitude, 
+                                                   :track_direction, :active, :created_uid)");
 		
 		$query->bindparam(':track_name', $_POST['track_name']);
 		$query->bindparam(':length', $_POST['length']);
@@ -100,7 +99,7 @@ if(isset($_POST['create']))
 		$query->bindparam(':end_longitude', $end_longitude);
 		$query->bindparam(':track_direction', $_POST['track_direction']);
 		$query->bindparam(':active', $active);
-		$query->bindparam(':created_uid', $create_uid);
+		$query->bindparam(':created_uid', $created_uid);
 		
 		try
 		{		
@@ -111,7 +110,7 @@ if(isset($_POST['create']))
 		{	
 			$submit_message = "Error Connecting to Database, try again later (".$e2->getmessage().").";
 		}
-		$success = TRUE;	
+
 		$db = NULL;
 	}
 }
@@ -148,30 +147,26 @@ if(isset($_POST['create']))
 <?php
 	$latitude_atributes = 'type="number" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451"';
 	$longitude_atributes = 'type="number" size="30" maxlength="11" min="-180" max="180" step="any" placeholder="-20.6870728"';
-	$atribute_name = array('start','end');
-	$coord_title = array('Start','Finish');
 
-	for($i = 0; $i < 2; $i++)
+	foreach(array(array('start', 'Start'), array('end', 'Finish')) as list($atribute_name, $coord_title))
 	{
 ?>
 		<tr>
 			<td>
-				<?=$coord_title[$i]?>
+				<?=$coord_title?>
 			</td>
 			<td>
 				Latitude:
-				<input name="<?=$atribute_name[$i].'_latitude'?>" id="<?=$atribute_name[$i].'_latitude'?>" <?=$latitude_atributes?> required>
+				<input name="<?=$atribute_name.'_latitude'?>" id="<?=$atribute_name.'_latitude'?>" <?=$latitude_atributes?> required>
 				<br>
 				Longitude:
-				<input name="<?=$atribute_name[$i].'_longitude'?>" id="<?=$atribute_name[$i].'_longitude'?>" <?=$longitude_atributes?> required>
+				<input name="<?=$atribute_name.'_longitude'?>" id="<?=$atribute_name.'_longitude'?>" <?=$longitude_atributes?> required>
 			</td>
 		</tr>
 <?php	
-
-
 	}
 ?>
-
+ 	
 	<tr>
 		<td>Running Direction</td>
 		<td>
@@ -185,9 +180,9 @@ if(isset($_POST['create']))
 	<tr>
 		<td> </td>
 		<td>
-			<input type="text" name="country" id="country" list="someCountries" placeholder="Country" required>
-			<datalist id="someCountries">
-				<?php require ('countrydropdown.html'); ?>
+			<input type="text" name="country" id="country" list="countrylist" placeholder="Country" required>
+			<datalist id="countrylist">
+				<?php require ('countrydropdown.php');?>
 			</datalist>
 		</td>
 	</tr>

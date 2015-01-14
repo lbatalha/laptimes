@@ -1,5 +1,3 @@
-<!-- <option value="Afghanistan">Afghanistan</option>
-<option value="Zimbabwe">Zimbabwe</option> -->
 <?php
 $countries = array(
 	"AFG"  =>  "Afghanistan",
@@ -253,10 +251,10 @@ $countries = array(
 	"ZWE"  =>  "Zimbabwe",
 );
 
-foreach($countries as list($iso_alpha3 => $iso_englishshort))
+foreach($countries as $iso_alpha3 => $iso_englishshort)
 {
 ?>
-	<option value=<?=$iso_alpha3?>><?=$iso_englishshort?></option>
+	<option value="<?=$iso_englishshort?>" label="<?=$iso_alpha3?>">
 <?php
 }
 ?>
