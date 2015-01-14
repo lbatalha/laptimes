@@ -49,9 +49,10 @@ if(isset($_POST['create']))
 			$db = new PDO("mysql:dbname=$dbname;host=$dbhost","$dbuser","$dbpass");
 		}
 		catch(PDOException $e)
-	    {
-			echo $e->getmessage();
-	    }
+		{
+			$submit_message = "Error Connecting to Database, try again later.";
+			$e->getmessage();
+		}
 		
 		$create_uid = 1;
 		$active = TRUE;
