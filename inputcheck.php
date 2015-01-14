@@ -9,7 +9,7 @@ function inputcheck($post, $length, $minlength = 0, $min = NULL, $max = NULL)
 		return FALSE;
 	else
 		$string = $_POST[$post];
-	if (is_numeric($string)) 
+	if($min !== NULL) 
 	{
 		if($string >= $min && $string <= $max)
 			return TRUE;

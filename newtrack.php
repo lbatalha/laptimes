@@ -21,7 +21,7 @@ if(isset($_POST['create']))
 	{ 
 		$submit_message = 'Invalid Track Name';
 	}
-	elseif(!inputcheck('country', 64, 3))
+	elseif(!inputcheck('country', 64, 2))
 	{ 
 		$submit_message = 'Invalid Country Name';
 	}
@@ -37,20 +37,20 @@ if(isset($_POST['create']))
 	{ 
 		$submit_message = 'Invalid Track Direction';
 	}
-	elseif(!inputcheck('start_latitude', 11, 0, -1*$lat_range, $lat_range))
+	elseif(!inputcheck('start_latitude', 11, 0, -$lat_range, $lat_range))
 	{ 
 		$submit_message = 'Invalid Start Latitude';
 	}
-	elseif(!inputcheck('start_longitude', 11, 0, -1*$lon_range, $lon_range))
+	elseif(!inputcheck('start_longitude', 11, 0, -$lon_range, $lon_range))
 	{ 
 		$submit_message = 'Invalid Start Longitude';
 	}
 	elseif($_POST['type'] == '2'){
-		if(!inputcheck('end_latitude', 11, 0, -1*$lat_range, $lat_range))
+		if(!inputcheck('end_latitude', 11, 0, -$lat_range, $lat_range))
 		{ 
 			$submit_message = 'Invalid Finish Latitude';
 		}
-		elseif(!inputcheck('end_longitude', 11, 0, -1*$lon_range, $lon_range))
+		elseif(!inputcheck('end_longitude', 11, 0, -$lon_range, $lon_range))
 		{ 
 			$submit_message = 'Invalid Finish Longitude';
 		}
@@ -76,16 +76,19 @@ if(isset($_POST['create']))
 		}
 		catch(PDOException $e)
 		{
-			$submit_message = "Error Connecting to Database, try again later.";
-			$e->getmessage();
+			$submit_message = "Error Connecting to Database, try again later (".$e->getmessage().").";
 		}
 		
 		$create_uid = 1;
 		$active = TRUE;
 
 
-		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, start_latitude, start_longitude, end_latitude, end_longitude, track_direction, active, created_uid) 
-										  VALUES (:track_name,:length,:country,:type,:start_latitude,:start_longitude,:end_latitude,:end_longitude,:track_direction,:active,:created_uid)");
+		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, 
+												start_latitude, start_longitude, end_latitude, end_longitude, 
+												track_direction, active, created_uid) 
+										VALUES (:track_name, :length, :country, :type, 
+												:start_latitude, :start_longitude, :end_latitude, :end_longitude, 
+												:track_direction, :active, :created_uid)");
 		
 		$query->bindparam(':track_name', $_POST['track_name']);
 		$query->bindparam(':length', $_POST['length']);
@@ -106,7 +109,7 @@ if(isset($_POST['create']))
 		}
 		catch (PDOException $e2)
 		{	
-			$submit_message = $e2->getmessage();
+			$submit_message = "Error Connecting to Database, try again later (".$e2->getmessage().").";
 		}
 		$success = TRUE;	
 		$db = NULL;
@@ -145,8 +148,8 @@ if(isset($_POST['create']))
 <?php
 	$latitude_atributes = 'type="number" size="30" maxlength="11" min="-90" max="90" step="any" placeholder="41.9714451"';
 	$longitude_atributes = 'type="number" size="30" maxlength="11" min="-180" max="180" step="any" placeholder="-20.6870728"';
-	$atribute_name = array['start','end'];
-	$coord_title = array['Start','Finish'];
+	$atribute_name = array('start','end');
+	$coord_title = array('Start','Finish');
 
 	for($i = 0; $i < 2; $i++)
 	{
@@ -171,7 +174,8 @@ if(isset($_POST['create']))
 
 	<tr>
 		<td>Running Direction</td>
-		<td>Clockwise
+		<td>
+			Clockwise
 					<input name="track_direction" type="radio" id="track_direction" value="1" checked>
 			Anti-Clockwise
 					<input name="track_direction" type="radio" id="track_direction" value="2">
