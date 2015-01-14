@@ -180,7 +180,7 @@ if(isset($_POST['create']))
 		<td>
 			<input type="text" name="country" id="country" list="someCountries" placeholder="Country" required>
 			<datalist id="someCountries">
-				<?php require ('countrydropdown.html'; ?>
+				<?php require ('countrydropdown.html'); ?>
 			</datalist>
 		</td>
 	</tr>
