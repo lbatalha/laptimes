@@ -7,36 +7,58 @@ require 'dbinfo.php';
 require 'inputcheck.php';
 
 
+
 if(isset($_POST['create']))
 {
 	$valid = FALSE;
 	$success = FALSE;
-	// inputcheck($string,$type,$length,$minlength, $min, $max)
-	if( !isset($_POST['track_name']) || !inputcheck($_POST['track_name'],'string',64, 5, NULL, NULL) ){ 
+	// inputcheck($string, $type, $length, $minlength, $min, $max)
+	if(!isset($_POST['track_name']) || !inputcheck($_POST['track_name'],'string', 64, 5, NULL, NULL))
+	{ 
 		$submit_message = 'Invalid Track Name';
-	}elseif( !isset($_POST['country']) || !inputcheck($_POST['country'],'string',64, 3, NULL, NULL) ){ 
+	}
+	elseif(!isset($_POST['country']) || !inputcheck($_POST['country'],'string', 64, 3, NULL, NULL))
+	{ 
 		$submit_message = 'Invalid Country Name';
-	}elseif( !isset($_POST['length']) || !inputcheck($_POST['length'], 'numeric', 11, 0, 0, 1000000000)){ 
+	}
+	elseif(!isset($_POST['length']) || !inputcheck($_POST['length'], 'numeric', 11, 0, 0, 1000000000))
+	{ 
 		$submit_message = 'Invalid Length';
-	}elseif( !isset($_POST['type']) || !inputcheck($_POST['type'], 'numeric', 2, 1, 1, 2)){ 
+	}
+	elseif(!isset($_POST['type']) || !inputcheck($_POST['type'], 'numeric', 2, 1, 1, 2))
+	{ 
 		$submit_message = 'Invalid Track type';
-	}elseif( !isset($_POST['start_heading']) || !inputcheck($_POST['start_heading'], 'numeric', 2, 1, 1, 2)){ 
+	}
+	elseif(!isset($_POST['start_heading']) || !inputcheck($_POST['start_heading'], 'numeric', 2, 1, 1, 2))
+	{ 
 		$submit_message = 'Invalid Track Direction';
-	}elseif( !isset($_POST['start_latitude']) || !inputcheck($_POST['start_latitude'], 'numeric', 11, 0, -90, 90)){ 
+	}
+	elseif(!isset($_POST['start_latitude']) || !inputcheck($_POST['start_latitude'], 'numeric', 11, 0, -90, 90))
+	{ 
 		$submit_message = 'Invalid Start Latitude';
-	}elseif( !isset($_POST['start_longitude']) || !inputcheck($_POST['start_longitude'], 'numeric', 11, 0, -180, 180)){ 
+	}
+	elseif(!isset($_POST['start_longitude']) || !inputcheck($_POST['start_longitude'], 'numeric', 11, 0, -180, 180))
+	{ 
 		$submit_message = 'Invalid Start Longitude';
-	}elseif($_POST['type'] == '2'){
-		if( !isset($_POST['end_latitude']) || !inputcheck($_POST['end_latitude'], 'numeric', 11, 0, -90, 90)){ 
+	}
+	elseif($_POST['type'] == '2'){
+		if(!isset($_POST['end_latitude']) || !inputcheck($_POST['end_latitude'], 'numeric', 11, 0, -90, 90))
+		{ 
 			$submit_message = 'Invalid Finish Latitude';
-		}elseif( !isset($_POST['end_longitude']) || !inputcheck($_POST['end_longitude'], 'numeric', 11, 0, -180, 180)){ 
+		}
+		elseif(!isset($_POST['end_longitude']) || !inputcheck($_POST['end_longitude'], 'numeric', 11, 0, -180, 180))
+		{ 
 			$submit_message = 'Invalid Finish Longitude';
-		}else{
+		}
+		else
+		{
 			$valid = TRUE;
 			$end_latitude = $_POST['end_latitude'];
 			$end_longitude = $_POST['end_longitude'];
 		}
-	}else{
+	}
+	else
+	{
 		$valid = TRUE;
 		$end_latitude = 0;
 		$end_longitude = 0;
@@ -59,7 +81,7 @@ if(isset($_POST['create']))
 
 
 		$query = $db->prepare("INSERT INTO tracks (track_name, length, country, type, start_latitude, start_longitude, end_latitude, end_longitude, start_heading, active, created_uid) 
-											VALUES (:track_name, :length,:country, :type, :start_latitude, :start_longitude, :end_latitude, :end_longitude, :start_heading, :active, :created_uid)");
+										  VALUES (:track_name,:length,:country,:type,:start_latitude,:start_longitude,:end_latitude,:end_longitude,:start_heading,:active,:created_uid)");
 		
 		$query->bindparam(':track_name', $_POST['track_name']);
 		$query->bindparam(':length', $_POST['length']);
@@ -156,9 +178,9 @@ if(isset($_POST['create']))
 	<tr>
 		<td> </td>
 		<td>
-			<input type="text" name='country' id="country" list="someCountries" placeholder="Country" required>
+			<input type="text" name="country" id="country" list="someCountries" placeholder="Country" required>
 			<datalist id="someCountries">
-				<?php require ("countrydropdown.html"); ?>
+				<?php require ('countrydropdown.html'; ?>
 			</datalist>
 		</td>
 	</tr>
