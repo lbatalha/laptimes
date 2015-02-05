@@ -5,7 +5,7 @@
 function inputcheck($post, $length, $minlength, $min = NULL, $max = NULL)
 {
 	if(!isset($_POST[$post])){
-		echo 'shit';
+		echo 'No Post';
 		return FALSE;
 	}
 	else

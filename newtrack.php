@@ -46,7 +46,7 @@ if(isset($_POST['create']))
 	{ 
 		$submit_message = 'Invalid Start Longitude';
 	}
-	elseif($_POST['type'] == '2'){
+	elseif($_POST['type'] == '1'){
 		if(!inputcheck('end_latitude', 11, 0, -$lat_range, $lat_range))
 		{ 
 			$submit_message = 'Invalid Finish Latitude';
@@ -77,7 +77,7 @@ if(isset($_POST['create']))
 		}
 		catch(PDOException $e)
 		{
-			$submit_message = "Error Connecting to Database, try again later (".$e->getmessage().").";
+			echo "Error Connecting to Database, try again later (".$e->getmessage().").";
 		}
 		
 		$created_uid = 1;
