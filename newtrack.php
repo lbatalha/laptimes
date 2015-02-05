@@ -10,6 +10,8 @@ require 'inputcheck.php';
 
 if(isset($_POST['create']))
 {
+	$db = NULL;
+
 	$valid = FALSE;
 	
 	$lat_range = 90;
