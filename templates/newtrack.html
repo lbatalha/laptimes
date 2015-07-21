@@ -1,0 +1,68 @@
+<div align="center">
+	Create new Track
+	<form method="post" >
+		<table id="form_table">
+			<tr>
+				<td>Track Name</td>
+				<td>
+					<input name="track_name" type="text" id="track_name" size="50" maxlength="64" required>
+				</td>
+			</tr>
+
+			<tr>
+				<td>Length</td>
+				<td>
+					<input name="length" type="number" id="length" size=50 maxlength="11" min="0" max="1000000000">
+					meters
+				</td>
+			</tr>
+			<tr>
+				<td>Track Type</td>
+				<td>Circuit
+					<input name="type" type="radio" id="type" value="1" checked>
+					Sprint
+					<input name="type" type="radio" id="type" value="2">
+				</td>
+			</tr>
+			<tr>
+				<td> </td>
+				<td>Latitude:   
+					<input name="" id="">  Longitude:
+					<input name="" id=""  required>
+				</td>
+			</tr>
+			<tr>
+			  <td>Running Direction</td>
+			  <td>
+				  Clockwise
+				  <input name="track_direction" type="radio" id="track_direction" value="1" checked>
+				  Anti-Clockwise
+				  <input name="track_direction" type="radio" id="track_direction" value="2">
+			  </td>
+
+			</tr>
+			<tr>
+			  <td> </td>
+			  <td>
+				  <input type="text" name="country" id="country" list="countrylist" placeholder="Country" required>
+				  <datalist id="countrylist">
+					  
+				  </datalist>
+			  </td>
+			</tr>
+
+
+			<tr>
+			  <td id="form_error">
+				  
+			  </td>
+			  <td>
+				  <input name="create" type="submit" id="create" value="Create">
+			  </td>
+
+			</tr>
+
+		</table>
+
+	</form>
+</div>
